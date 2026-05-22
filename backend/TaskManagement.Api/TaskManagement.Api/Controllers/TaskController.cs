@@ -1,8 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel;
-using TaskManagement.Api.Entities;
 using TaskManagement.Api.Persistence;
 
 namespace TaskManagement.Api.Controllers
@@ -43,6 +40,25 @@ namespace TaskManagement.Api.Controllers
             _dbContext.Tasks.Add(task);
             await _dbContext.SaveChangesAsync();
             return CreatedAtAction(nameof(FindById), new { id = task.Id }, task);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, Entities.Task updatedTask)
+        {
+            var task = await _dbContext.Tasks.FindAsync(id);
+
+            if (task is null)
+            {
+                return NotFound();
+            }
+
+            task.Title = updatedTask.Title;
+            task.Description = updatedTask.Description;
+            task.Status = updatedTask.Status;
+
+            await _dbContext.SaveChangesAsync();
+
+            return Ok(task);
         }
     }
 }
