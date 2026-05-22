@@ -6,6 +6,6 @@
         public string? Title { get; set; }
         public string? Description { get; set; }
         public string? Status { get; set; }
-        public DateTime CreationTime { get; set; }
+        public DateTime CreationTime { get; set; } = DateTime.Now;
     }
 }
