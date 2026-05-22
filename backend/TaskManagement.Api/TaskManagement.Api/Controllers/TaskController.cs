@@ -18,6 +18,7 @@ namespace TaskManagement.Api.Controllers
         public async Task<ActionResult<IEnumerable<Entities.Task>>> FindAll()
         {
             var tasks = await _dbContext.Tasks.ToListAsync();
+
             return Ok(tasks);
         }
 
@@ -38,7 +39,9 @@ namespace TaskManagement.Api.Controllers
         public async Task<ActionResult> Create(Entities.Task task)
         {
             _dbContext.Tasks.Add(task);
+
             await _dbContext.SaveChangesAsync();
+
             return CreatedAtAction(nameof(FindById), new { id = task.Id }, task);
         }
 
@@ -59,6 +62,23 @@ namespace TaskManagement.Api.Controllers
             await _dbContext.SaveChangesAsync();
 
             return Ok(task);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var task = await _dbContext.Tasks.FindAsync(id);
+
+            if (task is null)
+            {
+                return NotFound();
+            }
+
+            _dbContext.Tasks.Remove(task);
+
+            await _dbContext.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 }
