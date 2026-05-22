@@ -36,5 +36,13 @@ namespace TaskManagement.Api.Controllers
 
             return Ok(task);
         }
+
+        [HttpPost]
+        public async Task<ActionResult> Create(Entities.Task task)
+        {
+            _dbContext.Tasks.Add(task);
+            await _dbContext.SaveChangesAsync();
+            return CreatedAtAction(nameof(FindById), new { id = task.Id }, task);
+        }
     }
 }
