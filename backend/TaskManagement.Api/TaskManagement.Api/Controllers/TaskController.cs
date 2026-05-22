@@ -23,5 +23,18 @@ namespace TaskManagement.Api.Controllers
             var tasks = await _dbContext.Tasks.ToListAsync();
             return Ok(tasks);
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Entities.Task>> FindById(int id)
+        {
+            var task = await _dbContext.Tasks.FindAsync(id);
+
+            if (task is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(task);
+        }
     }
 }
