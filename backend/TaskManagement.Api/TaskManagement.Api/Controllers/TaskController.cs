@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TaskManagement.Api.Entities;
 using TaskManagement.Api.Persistence;
 
 namespace TaskManagement.Api.Controllers
